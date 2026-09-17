@@ -1,0 +1,175 @@
+---
+import { site } from '../data/site';
+
+// Replace YOUR_FORMSPREE_ID with your Formspree form ID before going live.
+const formspreeEndpoint = 'https://formspree.io/f/YOUR_FORMSPREE_ID';
+---
+
+<section id="contact" class="bg-page reveal">
+  <div class="px-5 py-12 md:px-10 md:py-14 lg:px-16 lg:py-24">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-left md:text-center">
+        <p class="section-kicker">Contact</p>
+        <h2
+          class="mx-auto mt-5 max-w-4xl font-display text-4xl font-bold tracking-[-0.05em] text-ink md:text-6xl"
+        >
+          {site.contactHeadline}
+        </h2>
+        <p class="mx-auto mt-5 max-w-2xl text-lg leading-8 text-ink/55">
+          {site.contactSubhead}
+        </p>
+      </div>
+
+      <div class="mt-10 grid gap-4 md:grid-cols-3">
+        <a
+          href={`mailto:${site.email}`}
+          class="glass-card accent-glow-subtle flex items-center gap-4 rounded-2xl p-5"
+        >
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+            <img
+              src="/img/svg/icon-email.svg"
+              alt=""
+              class="w-5 h-5"
+              loading="lazy"
+              decoding="async"
+              aria-hidden="true"
+            />
+          </div>
+          <div>
+            <h3 class="font-display font-semibold text-ink">Email</h3>
+            <p class="mt-1 text-sm text-ink/50">{site.email}</p>
+          </div>
+        </a>
+
+        <a
+          href={`tel:${site.telephone.replace(/\s+/g, '')}`}
+          class="glass-card accent-glow-subtle flex items-center gap-4 rounded-2xl p-5"
+        >
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+            <img
+              src="/img/svg/icon-phone.svg"
+              alt=""
+              class="w-5 h-5"
+              loading="lazy"
+              decoding="async"
+              aria-hidden="true"
+            />
+          </div>
+          <div>
+            <h3 class="font-display font-semibold text-ink">Phone</h3>
+            <p class="mt-1 text-sm text-ink/50">{site.telephone}</p>
+          </div>
+        </a>
+
+        <div class="glass-card accent-glow-subtle flex items-center gap-4 rounded-2xl p-5">
+          <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+            <img
+              src="/img/svg/icon-location.svg"
+              alt=""
+              class="w-5 h-5"
+              loading="lazy"
+              decoding="async"
+              aria-hidden="true"
+            />
+          </div>
+          <div>
+            <h3 class="font-display font-semibold text-ink">Location</h3>
+            <p class="mt-1 text-sm text-ink/50"
+              >{site.streetAddress}, {site.addressLocality}</p
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card accent-glow mt-6 rounded-[2rem] p-6 md:p-8">
+        <div class="mb-8 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <h3 class="font-display text-2xl font-bold text-ink">Book a table</h3>
+            <p class="mt-2 text-sm text-ink/45"
+              >Tables for 10 or more. Smaller groups, just come down.</p
+            >
+          </div>
+          <span class="text-sm font-semibold text-accent">Usually replies within 24 hours</span>
+        </div>
+
+        <p
+          id="contact-form-success"
+          class="hidden mb-4 rounded-2xl border border-accent/30 bg-accent/5 px-4 py-3 text-sm text-accent"
+          role="status"
+          aria-live="polite"
+        >
+          Thanks — we will get back to you about your booking.
+        </p>
+
+        <form
+          id="contact-form"
+          action={formspreeEndpoint}
+          method="POST"
+          class="space-y-5"
+        >
+          <input type="hidden" name="_subject" value={`${site.name} contact form`} />
+          <label class="hidden" aria-hidden="true">
+            <span>Do not fill this out</span>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" />
+          </label>
+
+          <div class="space-y-2">
+            <label for="contact-name" class="block text-sm text-ink/60">Your Name</label>
+            <input
+              id="contact-name"
+              type="text"
+              name="name"
+              placeholder="Jane Doe"
+              required
+              class="w-full rounded-2xl border border-ink/10 bg-input px-4 py-3 text-ink placeholder:text-ink/30 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/40 transition-colors"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="contact-email" class="block text-sm text-ink/60">Email Address</label>
+            <input
+              id="contact-email"
+              type="email"
+              name="email"
+              placeholder="jane@example.com"
+              required
+              class="w-full rounded-2xl border border-ink/10 bg-input px-4 py-3 text-ink placeholder:text-ink/30 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/40 transition-colors"
+            />
+          </div>
+
+          <div class="space-y-2">
+            <label for="contact-message" class="block text-sm text-ink/60">Message</label>
+            <textarea
+              id="contact-message"
+              name="message"
+              rows="5"
+              placeholder="Tell us the date, time, and party size..."
+              required
+              class="w-full resize-none rounded-2xl border border-ink/10 bg-input px-4 py-3 text-ink placeholder:text-ink/30 focus:border-accent focus:outline-none focus:ring-1 focus:ring-accent/40 transition-colors"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="flex w-full items-center justify-center gap-2 rounded-full bg-accent px-6 py-3 font-bold text-page transition-all hover:bg-accent-soft active:bg-ink"
+          >
+            <span>Send Message</span>
+            <svg
+              class="w-4 h-4 shrink-0"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M22 2 11 13"></path>
+              <path d="M22 2 15 22 11 13 2 9l20-7z"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

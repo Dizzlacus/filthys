@@ -1,0 +1,35 @@
+---
+description: Astro project architecture — islands-last, section components, data modules, BaseLayout, Tailwind tokens
+globs: "**/*.{astro,ts,mjs,js},astro.config.*"
+alwaysApply: false
+---
+
+# Astro architecture
+
+## Stack defaults
+
+- Prefer static Astro HTML/CSS. Do not add React/Vue/Svelte or `client:*` islands unless interaction cannot be done with light vanilla JS.
+- Progressive enhancement lives in `@src/scripts/main.js`, not framework islands.
+- Package manager is `pnpm`; Node `>=22.12`. Deploy via existing Wrangler/Cloudflare config when touching deploy.
+
+## Structure
+
+- Pages compose section components (see `@src/pages/index.astro`).
+- Shared chrome and document head via `@src/layouts/BaseLayout.astro`.
+- Site copy, contact info, services, reviews, and SEO defaults live in `@src/data/site.ts` — do not scatter the same strings across components.
+- Design tokens (colors, fonts) live in `@src/styles/global.css` under `@theme` (Tailwind v4). Use those utilities (`bg-page`, `text-accent`, `font-display`) instead of inventing new hex values.
+
+## Do / don't
+
+```astro
+<!-- ❌ BAD: framework island for a simple menu -->
+<MobileNav client:load />
+
+<!-- ✅ GOOD: static markup + small script in main.js -->
+<button id="nav-burger" aria-expanded="false">…</button>
+```
+
+```ts
+// ❌ BAD: hardcode business email in three components
+// ✅ GOOD: import { site } from '../data/site'
+```

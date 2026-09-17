@@ -1,0 +1,188 @@
+---
+import { site, heroHighlights } from '../data/site';
+---
+
+<section id="hero" class="relative overflow-hidden bg-page pt-28 md:pt-32">
+  <div class="absolute inset-0 pointer-events-none" aria-hidden="true">
+    <div class="absolute left-1/2 top-0 h-80 w-80 -translate-x-1/2 rounded-full bg-accent/5 blur-3xl"
+    ></div>
+    <div class="absolute right-0 top-28 h-96 w-96 rounded-full bg-accent-soft/10 blur-3xl"
+    ></div>
+    <div
+      class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/25 to-transparent"
+    ></div>
+  </div>
+
+  <div class="relative px-5 md:px-10 lg:px-16 pb-16 md:pb-8 lg:pb-24">
+    <div
+      class="max-w-7xl mx-auto grid gap-12 md:grid-cols-[minmax(0,22rem)_minmax(0,20rem)] md:justify-center md:gap-x-8 md:gap-y-12 lg:gap-20 xl:gap-24 lg:grid-cols-[320px_1fr] xl:grid-cols-[360px_1fr] items-center"
+    >
+      <aside
+        class="hero-profile-card glass-card accent-glow order-2 w-full max-w-sm justify-self-center rounded-[2rem] p-0 md:justify-self-end lg:order-1 lg:sticky lg:top-28 lg:max-w-none lg:justify-self-auto lg:p-6"
+      >
+        <div
+          class="overflow-hidden rounded-[1.5rem] border border-ink/10 bg-gradient-to-br from-accent/10 via-panel to-transparent p-5"
+        >
+          <div
+            class="aspect-[4/3] overflow-hidden rounded-[1.25rem] bg-panel flex items-center justify-center"
+            role="img"
+            aria-label="Venue photo — add a hero image in src/assets/images"
+          >
+            <div class="text-center px-6">
+              <div class="mx-auto mb-3 h-12 w-12 rounded-2xl bg-accent/10"></div>
+              <p class="text-sm font-semibold text-ink/50">Venue photo</p>
+              <p class="mt-1 text-xs text-ink/35">Drop a photo into assets</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="hidden px-2 pt-6 text-center lg:block">
+          <h2 class="font-display text-3xl font-bold tracking-tight">{site.name}</h2>
+          <p class="mt-1 text-xs font-bold uppercase tracking-[0.22em] text-accent-soft"
+            >{site.founderName}</p
+          >
+          <a
+            href={`mailto:${site.email}`}
+            class="mt-5 inline-block text-sm text-ink/75 underline decoration-ink/20 underline-offset-4 hover:text-accent hover:decoration-accent transition-colors"
+          >
+            {site.email}
+          </a>
+          <p class="mt-2 text-xs text-ink/40">{site.streetAddress}, {site.addressLocality}</p
+
+          <div class="mt-6 flex items-center justify-center gap-3">
+            <a
+              href="#services"
+              aria-label="See what's on"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-surface text-ink/70 hover:border-accent/50 hover:text-accent transition-colors"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h10"></path>
+              </svg>
+            </a>
+            <a
+              href="#portfolio"
+              aria-label="See residents"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-surface text-ink/70 hover:border-accent/50 hover:text-accent transition-colors"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"></path>
+                <circle cx="12" cy="12" r="9"></circle>
+              </svg>
+            </a>
+            <a
+              href="#contact"
+              aria-label="Contact"
+              class="flex h-10 w-10 items-center justify-center rounded-full border border-ink/10 bg-surface text-ink/70 hover:border-accent/50 hover:text-accent transition-colors"
+            >
+              <svg
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+                aria-hidden="true"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 8 12 13 3 8"></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2Z"
+                ></path>
+              </svg>
+            </a>
+          </div>
+
+          <a
+            href="#contact"
+            class="mt-7 inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-page hover:bg-accent-soft active:bg-ink transition-colors"
+          >
+            <span>{site.heroCta}</span>
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0-4 4m4-4H3"
+              ></path>
+            </svg>
+          </a>
+        </div>
+      </aside>
+
+      <div class="order-1 min-w-0 md:col-span-2 md:text-center lg:order-2 lg:col-span-1 lg:text-left">
+        <div class="reveal">
+          <h1
+            class="mx-auto max-w-4xl font-display text-5xl font-bold leading-[0.95] tracking-[-0.05em] text-ink md:text-7xl lg:mx-0 xl:text-8xl"
+          >
+            {site.heroHeadline}
+          </h1>
+
+          <p class="mx-auto mt-7 max-w-3xl text-base leading-8 text-ink/55 md:text-lg lg:mx-0">
+            {site.heroSubhead}
+          </p>
+
+          <a
+            href="#contact"
+            class="mx-auto mt-8 inline-flex w-full max-w-sm items-center justify-center gap-2 rounded-full bg-accent px-5 py-3 text-sm font-bold text-page transition-colors hover:bg-accent-soft active:bg-ink lg:mx-0 lg:hidden"
+          >
+            <span>{site.heroCta}</span>
+            <svg
+              class="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+              aria-hidden="true"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0-4 4m4-4H3"
+              ></path>
+            </svg>
+          </a>
+
+          <div class="mt-10 hidden gap-4 sm:grid-cols-3 lg:grid">
+            {
+              heroHighlights.map((item) => (
+                <div class="glass-card rounded-2xl p-6 transition-all duration-300 hover:border-accent/40">
+                  <div class="font-display text-4xl font-bold tracking-tight">{item.label}</div>
+                  <p class="mt-2 text-sm text-ink/45">{item.detail}</p>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div
+        class="order-3 grid gap-4 sm:grid-cols-3 md:grid-cols-1 md:self-center md:justify-self-center md:max-w-xs lg:hidden"
+      >
+        {
+          heroHighlights.map((item) => (
+            <div class="glass-card rounded-2xl p-6 text-center transition-all duration-300 hover:border-accent/40">
+              <div class="font-display text-4xl font-bold tracking-tight">{item.label}</div>
+              <p class="mt-2 text-sm text-ink/45">{item.detail}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

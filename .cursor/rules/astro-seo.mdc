@@ -1,0 +1,30 @@
+---
+description: Astro SEO baseline — BaseLayout meta, canonical, Open Graph, JSON-LD, sitemap, robots
+globs: "**/layouts/**/*.astro,**/pages/**/*,**/data/**/*.ts,astro.config.*"
+alwaysApply: false
+---
+
+# Astro SEO
+
+Canonical layout: `@src/layouts/BaseLayout.astro`. Site defaults: `@src/data/site.ts`. Config: `@astro.config.mjs`.
+
+## Every page
+
+- Pass unique `title` and `description` into `BaseLayout` (see `@src/pages/index.astro`).
+- Layout must emit: canonical link, `robots`, Open Graph, Twitter card, theme-color, favicon/apple-touch-icon.
+- Set `site` in `astro.config.mjs`. Keep `@astrojs/sitemap` and `@src/pages/robots.txt.ts` wired to that site URL.
+
+## URLs and images
+
+- Build absolute OG/schema image URLs from `Astro.site` (or `site.url`), never relative-only social URLs.
+- Prefer `getImage()` / optimized asset URLs for schema images when the source is an imported asset.
+
+## Structured data
+
+- Business/marketing pages: JSON-LD `@graph` (e.g. ProfessionalService, WebSite, Person) matching BaseLayout.
+- Keep business facts (name, email, locale, areaServed) in `@src/data/site.ts` so schema and UI stay in sync.
+
+```astro
+<!-- ❌ BAD: page with only a <title>, no description/canonical/OG -->
+<!-- ✅ GOOD: <BaseLayout title="…" description="…">…</BaseLayout> -->
+```

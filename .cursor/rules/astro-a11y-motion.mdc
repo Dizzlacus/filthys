@@ -1,0 +1,30 @@
+---
+description: Astro accessibility and motion — aria labels, reduced motion, reveal animations, form live regions
+globs: "**/*.{astro,js,css}"
+alwaysApply: false
+---
+
+# Accessibility and motion
+
+Canonical behavior: `@src/scripts/main.js`, `@src/styles/global.css` (`.reveal`), `@src/components/Nav.astro`, `@src/components/Contact.astro`.
+
+## Controls
+
+- Icon-only links/buttons need `aria-label`.
+- Disclosure menus: `aria-expanded` on the toggle; `aria-hidden` on the panel when closed.
+- Decorative SVGs/images: `aria-hidden="true"` (and empty `alt` on `<img>`).
+
+## Motion
+
+- Respect `prefers-reduced-motion: reduce` for parallax, continuous animation, and non-essential transforms.
+- Scroll listeners: `{ passive: true }`; batch visual updates with `requestAnimationFrame`.
+- Entrance motion: `.reveal` + IntersectionObserver; add `.is-visible` once, then `unobserve`.
+
+```js
+// ❌ BAD: scroll handler that writes layout every event, ignores reduced motion
+// ✅ GOOD: matchMedia('(prefers-reduced-motion: reduce)'), rAF throttle, unobserve after reveal
+```
+
+## Forms
+
+- Success/error messages: `role="status"` and `aria-live="polite"` (see contact form success in Contact).

@@ -1,0 +1,144 @@
+---
+import { site } from '../data/site';
+
+interface Props {
+  showMobileNav?: boolean;
+  sticky?: boolean;
+  homeLinks?: boolean;
+}
+
+const { showMobileNav = true, sticky = true, homeLinks = true } = Astro.props;
+
+const linkClass =
+  'text-ink/65 hover:text-accent transition-colors uppercase tracking-[0.18em] text-xs font-semibold';
+const mobileLinkClass =
+  'block w-full text-left text-ink/75 hover:text-accent transition-colors py-2 uppercase tracking-[0.18em] text-xs font-semibold rounded-lg px-2 hover:bg-ink/5';
+
+const links = homeLinks
+  ? [
+      { href: '/#services', label: "What's on" },
+      { href: '/#portfolio', label: 'Residents' },
+      { href: '/#about', label: 'About' },
+      { href: '/plans', label: 'Deals' },
+      { href: '/#contact', label: 'Book' },
+    ]
+  : [];
+---
+
+<nav
+  id="site-nav"
+  class:list={[
+    sticky
+      ? 'fixed top-0 left-0 right-0 z-50 backdrop-blur-xl transition-[background-color] duration-300 bg-transparent'
+      : 'w-full border-b border-ink/10 bg-page/95 backdrop-blur-xl',
+  ]}
+  role="navigation"
+  aria-label="Main navigation"
+>
+  <div class="px-5 md:px-10 lg:px-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-center h-20">
+        <a
+          id="nav-logo"
+          href="/"
+          class="flex items-center gap-2 text-ink hover:text-ink/80 transition-colors shrink-0"
+        >
+          <svg
+            id="nav-logo-mark"
+            class="w-6 h-6 shrink-0"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect x="4" y="4" width="24" height="24" rx="6" fill="#e4b45a"></rect>
+            <text
+              x="16"
+              y="21"
+              text-anchor="middle"
+              font-size="13"
+              font-weight="700"
+              fill="#120f0c">F</text
+            >
+          </svg>
+          <span class="font-display font-semibold tracking-tight">{site.name}</span>
+        </a>
+
+        {
+          homeLinks && (
+            <div class="hidden lg:flex items-center gap-8 text-sm ml-auto">
+              {links.map((link) => (
+                <a href={link.href} class={linkClass}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          )
+        }
+
+        {
+          showMobileNav && homeLinks && (
+            <button
+              id="nav-burger"
+              class="lg:hidden relative flex items-center justify-center w-10 h-10 rounded-full text-ink/80 hover:text-ink hover:bg-ink/10 transition-colors"
+              aria-expanded="false"
+              aria-controls="nav-mobile-menu"
+              aria-label="Toggle navigation menu"
+            >
+              <svg
+                id="icon-hamburger"
+                class="w-6 h-6 text-accent"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                id="icon-close"
+                class="w-6 h-6 text-accent is-hidden"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )
+        }
+      </div>
+    </div>
+  </div>
+
+  {
+    showMobileNav && homeLinks && (
+      <div
+        id="nav-mobile-menu"
+        class="lg:hidden border-t border-ink/10 bg-page/95 backdrop-blur-xl"
+        aria-hidden="true"
+      >
+        <div class="px-5 md:px-10 lg:px-16">
+          <div class="max-w-7xl mx-auto py-6">
+            <div class="space-y-1">
+              {links.map((link) => (
+                <a href={link.href} class={mobileLinkClass}>
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    )
+  }
+</nav>

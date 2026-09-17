@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+
+<BaseLayout
+  title={`Terms & Conditions — ${site.name}`}
+  description={`Placeholder terms for ${site.name}. Replace with your legal text before publishing.`}
+  stickyNav={false}
+>
+  <main class="max-w-screen-md mx-auto px-5 md:px-8 py-16 lg:py-24">
+    <div class="mb-12">
+      <h1 class="font-display text-4xl font-bold text-ink leading-[1.2] tracking-tight mb-4">
+        Terms & Conditions
+      </h1>
+      <p class="text-ink/45 text-sm">Effective Date: September 2026</p>
+    </div>
+
+    <div class="flex flex-col gap-10 text-base text-ink/70 leading-relaxed">
+      <p>
+        These are placeholder terms for <strong class="text-ink">{site.name}</strong>. Replace this
+        page with your own legal copy before publishing.
+      </p>
+
+      <section>
+        <h2 class="font-display text-xl font-semibold text-ink mb-3 tracking-tight">
+          1. The venue
+        </h2>
+        <p>
+          Filthy's is a live music bar at 3–4 Bigg Market, Newcastle upon Tyne. Table bookings
+          are for parties of 10 or more. Replace this page with your own legal copy before
+          publishing.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-xl font-semibold text-ink mb-3 tracking-tight">
+          2. Payments
+        </h2>
+        <p>Outline deposits, payment schedules, and late fees as they apply to your business.</p>
+      </section>
+
+      <section>
+        <h2 class="font-display text-xl font-semibold text-ink mb-3 tracking-tight">
+          3. Contact
+        </h2>
+        <p>
+          Questions about these terms:
+          <a href={`mailto:${site.email}`} class="text-accent underline underline-offset-2"
+            >{site.email}</a
+          >.
+        </p>
+      </section>
+    </div>
+  </main>
+</BaseLayout>

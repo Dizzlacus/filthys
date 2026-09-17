@@ -1,0 +1,19 @@
+---
+import { site } from '../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-page border-t border-ink/10">
+  <div class="px-5 md:px-10 lg:px-16 py-10">
+    <div
+      class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-ink/45 text-sm"
+    >
+      <div>&copy; {year} {site.name}</div>
+      <div class="flex gap-8">
+        <a href="/privacy" class="hover:text-accent transition-colors">Privacy</a>
+        <a href="/terms" class="hover:text-accent transition-colors">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
