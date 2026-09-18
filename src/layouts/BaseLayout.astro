@@ -2,7 +2,7 @@
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
-import { site, services, reviews, openingHours } from '../data/site';
+import { site, nights, openingHours, withBase } from '../data/site';
 
 interface Props {
   title?: string;
@@ -28,14 +28,10 @@ const {
 
 const siteURL = Astro.site ?? new URL(site.url);
 const canonicalURL = new URL(Astro.url.pathname, siteURL);
-const imageURL = new URL(image, siteURL);
+const imageURL = new URL(withBase(image), siteURL);
 
 const businessId = `${site.url}/#business`;
 const websiteId = `${site.url}/#website`;
-
-const ratings = reviews.map((review) => review.rating);
-const ratingValue =
-  ratings.reduce((total, rating) => total + rating, 0) / (ratings.length || 1);
 
 const structuredData = {
   '@context': 'https://schema.org',
@@ -50,7 +46,7 @@ const structuredData = {
       telephone: site.telephone,
       description: site.description,
       image: imageURL.href,
-      logo: new URL('/favicon.svg', siteURL).href,
+      logo: new URL(withBase('/img/filthys-logo.png'), siteURL).href,
       priceRange: site.priceRange,
       areaServed: site.areaServed,
       address: {
@@ -74,37 +70,15 @@ const structuredData = {
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
         name: "What's on",
-        itemListElement: services.map((service) => ({
+        itemListElement: nights.map((night) => ({
           '@type': 'Offer',
           itemOffered: {
-            '@type': 'Service',
-            name: service.name,
-            description: service.description,
+            '@type': 'Event',
+            name: `${night.title} · ${night.dayLabel}`,
+            description: night.description,
           },
         })),
       },
-      ...(reviews.length
-        ? {
-            aggregateRating: {
-              '@type': 'AggregateRating',
-              ratingValue: ratingValue.toFixed(1),
-              reviewCount: reviews.length,
-              bestRating: 5,
-              worstRating: 1,
-            },
-            review: reviews.map((review) => ({
-              '@type': 'Review',
-              reviewBody: review.quote.replace(/^"|"$/g, ''),
-              author: { '@type': 'Person', name: review.name },
-              reviewRating: {
-                '@type': 'Rating',
-                ratingValue: review.rating,
-                bestRating: 5,
-                worstRating: 1,
-              },
-            })),
-          }
-        : {}),
     },
     {
       '@type': 'WebSite',
@@ -130,12 +104,14 @@ const enableGa = Boolean(site.gaMeasurementId);
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content={robots} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#120f0c" />
+    <meta name="theme-color" content="#050505" />
     <title>{title}</title>
     <link rel="canonical" href={canonicalURL.href} />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href={withBase('/favicon.ico')} sizes="48x48" />
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" sizes="any" />
+    <link rel="icon" href={withBase('/favicon-32x32.png')} type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} sizes="180x180" />
+    <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.name} />

@@ -1,22 +1,28 @@
-export interface Review {
-  quote: string;
-  name: string;
-  role: string;
-  rating: number;
-}
+export type Weekday =
+  | 'monday'
+  | 'tuesday'
+  | 'wednesday'
+  | 'thursday'
+  | 'friday'
+  | 'saturday'
+  | 'sunday';
 
-export interface Service {
-  name: string;
-  description: string;
-  icon?: string;
-}
-
-export interface PortfolioItem {
+export interface Night {
+  id: string;
+  days: Weekday[];
+  dayLabel: string;
   title: string;
+  time?: string;
+  host?: string;
   description: string;
-  href: string;
-  tags: string[];
-  status: string;
+  offers?: string[];
+  /** Weekend only: spans two columns and carries the photo. */
+  featured?: boolean;
+}
+
+export interface StudentDeal {
+  price: string;
+  label: string;
 }
 
 export interface PricingPlan {
@@ -43,6 +49,30 @@ export interface HeroHighlight {
   detail: string;
 }
 
+export interface HeroCta {
+  label: string;
+  href: string;
+}
+
+/**
+ * Background loop for the hero. Leave both empty until a real edit exists;
+ * the hero renders poster-only and no <video> element in that case.
+ * Drop encoded files into public/video/ and set the paths here to enable it.
+ */
+export interface HeroVideo {
+  mp4?: string;
+  webm?: string;
+}
+
+/** Prefix public-root paths so GitHub Pages can serve from /filthys/. */
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL.endsWith('/')
+    ? import.meta.env.BASE_URL
+    : `${import.meta.env.BASE_URL}/`;
+  if (path.startsWith('#')) return `${base}${path}`;
+  return `${base}${path.replace(/^\//, '')}`;
+}
+
 export const site = {
   name: "Filthy's",
   legalName: "Filthy's",
@@ -64,30 +94,33 @@ export const site = {
     'https://www.facebook.com/FilthysNewcastle/',
     'https://twitter.com/filthysncl',
   ],
-  ogImage: '/img/og-image.svg',
+  ogImage: '/img/og-image.png',
   locale: 'en_GB',
   gaMeasurementId: '',
-  heroHeadline: "Newcastle's home of live music",
-  heroSubhead:
-    'A one-of-a-kind bar and club on the Bigg Market. Up-and-coming talent, signature cocktails, and nights that run until 3am.',
-  heroCta: 'Book a table',
-  aboutHeadline: 'Live music, seven nights a week.',
-  aboutParagraphs: [
-    "Filthy's is a late-night live music bar at the top of the Bigg Market — a quirky, music-first room with an eclectic interior and a stage you can see from almost anywhere inside.",
-    'Come for the open mic, stay for the residents, or just grab a cocktail and let the night run. Students and industry get midweek deals; weekends are indie, rock, and acoustic until 3am.',
-    'Table reservations are for parties of 10 or more. Smaller groups, just come down — we will make room.',
-  ],
-  contactHeadline: 'Book a table or say hello.',
+  heroSubtitle: "Newcastle's home of live music",
+  heroIntro:
+    'Welcome to a one of a kind bar and club that delivers memorable nights out, the greatest in up-and-coming musical talent, excellent service and a fantastic range of signature cocktails.',
+  heroSeoHeadline: "Filthy's — Newcastle's home of live music",
+  heroPrimaryCta: { label: "What's on tonight", href: '#whats-on' } as HeroCta,
+  heroSecondaryCta: { label: 'Book a table', href: '#contact' } as HeroCta,
+  nightsHeadline: "What's on.",
+  nightsSubhead: 'Live music every night, with deals for students and industry through the week.',
+  dealsHeadline: 'Student prices, five nights a week.',
+  dealsSubhead:
+    'Student deals every week, Sunday to Thursday, alongside live music every night.',
+  dealsSchedule: 'Every week · Sunday – Thursday',
+  contactHeadline: 'Book a table.',
   contactSubhead:
     'Parties of 10 or more can reserve a table. For anything else, drop in or send a message.',
-  servicesHeadline: "What's on.",
-  servicesSubhead: 'Live music every night, with deals for students and industry through the week.',
-  portfolioHeadline: 'The residents.',
-  portfolioSubhead:
-    'The musicians and hosts who keep Filthy\'s loud. Weekend nights also bring resident DJs playing indie, rock, and acoustic.',
-  reviewsHeadline: 'What people say.',
-  reviewsSubhead: 'A loud Geordie room that wants the music to go well — and the drinks to keep up.',
+  contactNote: 'Parties of 10 or more',
+  contactFormLead: 'Tell us the date, time, and party size. Smaller groups, just come down.',
 } as const;
+
+export const heroVideo: HeroVideo = {
+  // Pexels #9481012 (K) — live band + crowd, free licence. Swap for Filthy's footage when it exists.
+  mp4: '/video/hero.mp4',
+  webm: '',
+};
 
 export const heroHighlights: HeroHighlight[] = [
   { label: '7 nights', detail: 'Live music every night of the week' },
@@ -126,60 +159,65 @@ export const openingHours: OpeningHours[] = [
   },
 ];
 
-export const services: Service[] = [
+export const nights: Night[] = [
   {
-    name: 'Live music · Mon & Wed',
-    description:
-      'Live music 7 days a week. Industry offer: £3 selected bottled beer, 2x house doubles for £8, house wine £12. 10pm–midnight.',
-    icon: '/img/svg/icon-web-dev.svg',
+    id: 'midweek-live',
+    days: ['monday', 'wednesday'],
+    dayLabel: 'Mon & Wed',
+    title: 'Live music',
+    time: '10pm – midnight',
+    description: 'Live acts on stage midweek, with industry prices at the bar.',
+    offers: ['£3 selected bottles', '2 house doubles £8', 'House wine £12'],
   },
   {
-    name: 'Open mic · Tuesday',
+    id: 'open-mic',
+    days: ['tuesday'],
+    dayLabel: 'Tuesday',
+    title: 'Open mic',
+    time: '10pm – 2am',
+    host: 'Connor Pattison',
     description:
-      'Hosted by local musician Connor Pattison. All musicians welcome — play and you get a free pint. 10pm–2am.',
-    icon: '/img/svg/icon-collaboration.svg',
+      'Bring a guitar, a song to sing, or just a love of live music. All musicians welcome.',
+    offers: ['Free pint if you play'],
   },
   {
-    name: 'Live Lounge · Thursday',
+    id: 'live-lounge',
+    days: ['thursday'],
+    dayLabel: 'Thursday',
+    title: 'Live Lounge',
+    time: '10pm – 2am',
+    host: 'Stevie Stoker',
     description:
-      'Stevie Stoker hosts Live Lounge with the best local talent, plus student and industry drinks deals to kick the weekend off. 10pm–2am.',
-    icon: '/img/svg/icon-uiux.svg',
+      'The best local music talent on stage. Kick the weekend off early with live music and drinks deals.',
+    offers: ['Student deals', 'Industry deals'],
   },
   {
-    name: 'Weekends · Fri & Sat',
+    id: 'weekend',
+    days: ['friday', 'saturday'],
+    dayLabel: 'Fri & Sat',
+    title: 'Live music',
+    // TODO: confirm with venue
+    time: '8pm – 3am',
     description:
-      'Resident DJs playing indie, rock, and acoustic, plus live sets from Keiran Taylor, Patrick Kelly, Connor Pattison, Paige Temperly and more. 8pm–3am.',
-    icon: '/img/svg/icon-innovation.svg',
+      'Resident DJs playing indie, rock and acoustic, plus live sets from Keiran Taylor, Patrick Kelly, Connor Pattison, Paige Temperly and more.',
+    offers: ['Resident DJs', 'Live sets'],
+    featured: true,
   },
   {
-    name: 'Industry night · Sunday',
-    description: '25% off selected drinks and live music from 10pm–midnight. A proper wind-down for the trade.',
-    icon: '/img/svg/icon-excellence.svg',
+    id: 'industry',
+    days: ['sunday'],
+    dayLabel: 'Sunday',
+    title: 'Industry night',
+    time: '10pm – midnight',
+    description: 'A wind-down for everyone who works the Bigg Market, with live music from 10pm.',
+    offers: ['25% off selected drinks'],
   },
 ];
 
-export const portfolio: PortfolioItem[] = [
-  {
-    title: 'Connor Pattison',
-    description: 'Hosts the Tuesday open mic and plays the weekend live rooms.',
-    href: '#contact',
-    tags: ['Open mic', 'Live'],
-    status: 'Resident',
-  },
-  {
-    title: 'Stevie Stoker',
-    description: 'Hosts Live Lounge every Thursday with local music talent.',
-    href: '#contact',
-    tags: ['Live Lounge', 'Host'],
-    status: 'Resident',
-  },
-  {
-    title: 'Weekend residents',
-    description: 'Keiran Taylor, Patrick Kelly, Paige Temperly and more, plus DJs spinning indie, rock, and acoustic.',
-    href: '#contact',
-    tags: ['Indie', 'Rock', 'Acoustic'],
-    status: 'Fri & Sat',
-  },
+export const studentDeals: StudentDeal[] = [
+  { price: '£8', label: '2× house doubles + mixers' },
+  { price: '£3', label: 'Selected bottles' },
+  { price: '£12', label: 'Bottles of house wine' },
 ];
 
 export const plans: PricingPlan[] = [
@@ -208,26 +246,5 @@ export const plans: PricingPlan[] = [
     includesLabel: 'Includes',
     includes: ['£3 selected bottled beer', '2x house doubles for £8', 'House wine £12'],
     delivery: 'Live music 10pm–midnight',
-  },
-];
-
-export const reviews: Review[] = [
-  {
-    quote: '"Proper live music bar. The open mic is the one to be at if you play in town."',
-    name: 'Jamie',
-    role: 'Open mic regular',
-    rating: 5,
-  },
-  {
-    quote: '"Cocktails, late nights, and a room that actually cares about the bands. Bigg Market staple."',
-    name: 'Alex',
-    role: 'Weekend regular',
-    rating: 5,
-  },
-  {
-    quote: '"Student deals through the week and live music every night. Hard to beat for a midweek session."',
-    name: 'Sam',
-    role: 'Student night',
-    rating: 5,
   },
 ];

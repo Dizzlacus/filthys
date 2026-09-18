@@ -1,5 +1,5 @@
 ---
-import { site } from '../data/site';
+import { site, withBase } from '../data/site';
 
 interface Props {
   showMobileNav?: boolean;
@@ -16,11 +16,9 @@ const mobileLinkClass =
 
 const links = homeLinks
   ? [
-      { href: '/#services', label: "What's on" },
-      { href: '/#portfolio', label: 'Residents' },
-      { href: '/#about', label: 'About' },
-      { href: '/plans', label: 'Deals' },
-      { href: '/#contact', label: 'Book' },
+      { href: withBase('#whats-on'), label: "What's on" },
+      { href: withBase('#deals'), label: 'Deals' },
+      { href: withBase('#contact'), label: 'Book' },
     ]
   : [];
 ---
@@ -40,28 +38,20 @@ const links = homeLinks
       <div class="flex justify-between items-center h-20">
         <a
           id="nav-logo"
-          href="/"
-          class="flex items-center gap-2 text-ink hover:text-ink/80 transition-colors shrink-0"
+          href={withBase('/')}
+          class="flex items-center shrink-0"
+          aria-label={site.name}
         >
-          <svg
+          <img
             id="nav-logo-mark"
-            class="w-6 h-6 shrink-0"
-            viewBox="0 0 32 32"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-hidden="true"
-          >
-            <rect x="4" y="4" width="24" height="24" rx="6" fill="#e4b45a"></rect>
-            <text
-              x="16"
-              y="21"
-              text-anchor="middle"
-              font-size="13"
-              font-weight="700"
-              fill="#120f0c">F</text
-            >
-          </svg>
-          <span class="font-display font-semibold tracking-tight">{site.name}</span>
+            src={withBase('/img/filthys-logo.svg')}
+            alt={site.name}
+            width="214"
+            height="91"
+            class="h-9 w-auto md:h-11"
+            loading="eager"
+            decoding="async"
+          />
         </a>
 
         {

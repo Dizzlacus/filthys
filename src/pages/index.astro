@@ -1,19 +1,15 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Hero from '../components/Hero.astro';
-import Services from '../components/Services.astro';
-import Portfolio from '../components/Portfolio.astro';
-import About from '../components/About.astro';
-import Reviews from '../components/Reviews.astro';
+import Nights from '../components/Nights.astro';
+import Deals from '../components/Deals.astro';
 import Contact from '../components/Contact.astro';
 import { site } from '../data/site';
 ---
 
 <BaseLayout title={`${site.name} | Newcastle's home of live music`} description={site.description}>
   <Hero />
-  <Services />
-  <Portfolio />
-  <About />
-  <Reviews />
+  <Nights />
+  <Deals />
   <Contact />
 </BaseLayout>

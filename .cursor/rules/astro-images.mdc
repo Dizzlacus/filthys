@@ -6,7 +6,7 @@ alwaysApply: false
 
 # Astro images
 
-Canonical examples: `@src/components/Hero.astro` (LCP when you add a photo), `@src/components/About.astro` / `@src/components/Portfolio.astro` (lazy).
+Canonical examples: `@src/components/Hero.astro` (LCP), `@src/components/Nights.astro` (lazy).
 
 ## Where files live
 
@@ -23,7 +23,7 @@ Canonical examples: `@src/components/Hero.astro` (LCP when you add a photo), `@s
 ## Loading strategy
 
 - LCP / above-the-fold: `loading="eager"` + `fetchpriority="high"` + `decoding="async"`
-- Below-fold: `loading="lazy"` + `decoding="async"` — never eager-load gallery/about/portfolio images
+- Below-fold: `loading="lazy"` + `decoding="async"` — never eager-load nights/gallery images
 - Do **not** use Astro's `priority` prop here — it sets `decoding="sync"`, which diverges from this site's Hero pattern.
 
 ```astro

@@ -16,7 +16,7 @@ alwaysApply: false
 
 - Pages compose section components (see `@src/pages/index.astro`).
 - Shared chrome and document head via `@src/layouts/BaseLayout.astro`.
-- Site copy, contact info, services, reviews, and SEO defaults live in `@src/data/site.ts` — do not scatter the same strings across components.
+- Site copy, contact info, nights, and SEO defaults live in `@src/data/site.ts` — do not scatter the same strings across components.
 - Design tokens (colors, fonts) live in `@src/styles/global.css` under `@theme` (Tailwind v4). Use those utilities (`bg-page`, `text-accent`, `font-display`) instead of inventing new hex values.
 
 ## Do / don't

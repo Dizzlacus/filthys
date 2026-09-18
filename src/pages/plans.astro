@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site, plans, openingHours } from '../data/site';
+import { site, plans, openingHours, withBase } from '../data/site';
 ---
 
 <BaseLayout
@@ -73,8 +73,8 @@ import { site, plans, openingHours } from '../data/site';
 
               <div class="mt-auto pt-6">
                 <a
-                  href="/#contact"
-                  class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3.5 text-sm font-bold text-page transition-colors hover:bg-accent-soft active:bg-ink"
+                  href={withBase('#contact')}
+                  class="inline-flex w-full items-center justify-center gap-2 rounded-full bg-accent px-5 py-3.5 text-sm font-bold text-ink transition-colors hover:bg-accent-soft active:bg-ink active:text-page"
                 >
                   Book a table
                 </a>
@@ -113,7 +113,7 @@ import { site, plans, openingHours } from '../data/site';
 
       <div class="mt-16 pt-8 border-t border-ink/10">
         <a
-          href="/"
+          href={withBase('/')}
           class="inline-flex items-center gap-2 text-accent hover:text-accent-soft transition-colors text-sm font-medium"
         >
           <svg

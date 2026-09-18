@@ -1,0 +1,138 @@
+---
+import { Picture } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { site, nights, type Night } from '../data/site';
+import midweekLivePhoto from '../assets/images/nights/midweek-live.jpg';
+import openMicPhoto from '../assets/images/nights/open-mic.jpg';
+import liveLoungePhoto from '../assets/images/nights/live-lounge.jpg';
+import weekendPhoto from '../assets/images/nights/weekend.jpg';
+import industryPhoto from '../assets/images/nights/industry.jpg';
+
+// Venue photography, keyed by night id. Nights without an entry fall back to the day watermark.
+const photos: Partial<Record<string, ImageMetadata>> = {
+  'midweek-live': midweekLivePhoto,
+  'open-mic': openMicPhoto,
+  'live-lounge': liveLoungePhoto,
+  weekend: weekendPhoto,
+  industry: industryPhoto,
+};
+
+const offerPillClass =
+  'rounded-full border border-ink/10 bg-ink/5 px-3 py-1 text-sm text-ink/80';
+const accentOfferPillClass =
+  'rounded-full border border-accent/50 bg-accent/10 px-3 py-1 text-sm font-semibold text-accent';
+
+// The headline offer leads the Sunday card; the rest read as plain deals.
+const isHeadlineOffer = (night: Night, index: number) => night.id === 'industry' && index === 0;
+
+const watermark = (night: Night) => night.days[0].slice(0, 3).toUpperCase();
+---
+
+<section id="whats-on" class="bg-page reveal">
+  <div class="px-5 py-12 md:px-10 md:py-14 lg:px-16 lg:py-24">
+    <div class="max-w-7xl mx-auto">
+      <div class="max-w-3xl mx-auto text-left md:text-center">
+        <p class="section-kicker">Nights</p>
+        <h2
+          class="mt-5 font-display text-4xl font-bold tracking-[-0.04em] text-ink md:text-6xl"
+        >
+          {site.nightsHeadline}
+        </h2>
+        <p class="mt-5 text-lg leading-8 text-ink/55">
+          {site.nightsSubhead}
+        </p>
+      </div>
+
+      <div class="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {
+          nights.map((night) => {
+            const photo = photos[night.id];
+            return (
+            <article
+              id={`night-${night.id}`}
+              class:list={[
+                'glass-card hover-glow relative isolate flex flex-col justify-end overflow-hidden rounded-[1.5rem] p-7 scroll-mt-28',
+                photo ? 'min-h-[22rem]' : 'min-h-[18rem]',
+                night.featured ? 'md:col-span-2 md:order-last lg:order-none lg:min-h-[24rem]' : '',
+              ]}
+            >
+              {photo && (
+                <>
+                  <div class="absolute inset-0" aria-hidden="true">
+                    <Picture
+                      src={photo}
+                      formats={['avif', 'webp']}
+                      alt=""
+                      width={photo.width}
+                      height={photo.height}
+                      layout="constrained"
+                      class="absolute inset-0 h-full w-full object-cover"
+                      loading="lazy"
+                      decoding="async"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-page via-page/90 to-page/40"
+                    aria-hidden="true"
+                  />
+                </>
+              )}
+
+              {!photo && (
+                <span
+                  class="pointer-events-none absolute -bottom-4 right-5 select-none font-display text-7xl font-bold leading-none text-ink/[0.06]"
+                  aria-hidden="true"
+                >
+                  {watermark(night)}
+                </span>
+              )}
+
+              <div class="relative z-10">
+                <div class="flex items-start justify-between gap-3">
+                  <p class="font-display text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+                    {night.dayLabel}
+                  </p>
+                  {night.time && (
+                    <span class="shrink-0 rounded-full border border-ink/10 bg-page/60 px-2.5 py-1 text-xs tabular-nums text-ink/70">
+                      {night.time}
+                    </span>
+                  )}
+                </div>
+
+                <h3 class="mt-4 font-display text-2xl font-semibold text-ink md:text-3xl">
+                  {night.title}
+                </h3>
+
+                {night.host && (
+                  <p class="mt-2 text-sm text-ink/60">
+                    Hosted by <span class="text-ink">{night.host}</span>
+                  </p>
+                )}
+
+                <p class:list={['mt-4 leading-7', photo ? 'text-ink/70' : 'text-ink/55']}>
+                  {night.description}
+                </p>
+
+                {night.offers && (
+                  <ul class="mt-5 flex flex-wrap gap-2">
+                    {night.offers.map((offer, index) => (
+                      <li
+                        class={
+                          isHeadlineOffer(night, index) ? accentOfferPillClass : offerPillClass
+                        }
+                      >
+                        {offer}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+            </article>
+            );
+          })
+        }
+      </div>
+    </div>
+  </div>
+</section>
